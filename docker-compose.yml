@@ -10,6 +10,7 @@ services:
      - "3000:3000"
     volumes:
      - ./client:/usr/src/app
+     - /usr/src/app/node_modules
   backend:
     container_name: mern_server
     build: 
@@ -20,3 +21,4 @@ services:
      - "5000:5000"
     volumes:
      - ./server:/usr/src/app
+     - /usr/src/app/node_modules
