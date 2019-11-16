@@ -9,7 +9,7 @@ class App extends React.Component {
   }
   handleConnect = async () => {
     const text = await fetch(
-      `http://${document.location.hostname}:5000/hello`
+      `${document.location.protocol}//${document.location.hostname}:5000/hello`
     ).then(res => res.text());
     console.log(text);
     this.setState({ value: text });
