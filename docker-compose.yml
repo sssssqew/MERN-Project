@@ -7,18 +7,40 @@ services:
       dockerfile: Dockerfile
     image: sylee/mern_web
     ports:
-     - "3000:3000"
+      - "3000:3000"
     volumes:
-     - ./client:/usr/src/app
-     - /usr/src/app/node_modules
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    # networks:
+    #   - mern-network
+
   backend:
     container_name: mern_server
-    build: 
+    build:
       context: ./server
       dockerfile: Dockerfile
     image: sylee/mern_server
-    ports: 
-     - "5000:5000"
+    ports:
+      - "5000:5000"
     volumes:
-     - ./server:/usr/src/app
-     - /usr/src/app/node_modules
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    # networks:
+    #   - mern-network
+
+  nginx:
+    container_name: mern_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: sylee/mern_nginx
+    ports:
+      - "80:80"
+    # networks:
+    #   - mern-network
+    depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
+      - frontend
+      - backend
+# networks:
+#   mern-network:
+#     driver: bridge

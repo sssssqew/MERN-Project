@@ -8,9 +8,7 @@ class App extends React.Component {
     this.state = { value: "wait..." };
   }
   handleConnect = async () => {
-    const text = await fetch(
-      `${document.location.protocol}//${document.location.hostname}:5000/hello`
-    ).then(res => res.text());
+    const text = await fetch(`/api/hello`).then(res => res.text());
     console.log(text);
     this.setState({ value: text });
   };
