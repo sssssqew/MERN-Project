@@ -8,10 +8,19 @@ class App extends React.Component {
     this.state = { value: "wait..." };
   }
   handleConnect = async () => {
-    const text = await fetch(`/api/hello`).then(res => res.text());
+    const text = await fetch("/api/hello").then(res => res.text());
     console.log(text);
     this.setState({ value: text });
   };
+
+  componentDidMount() {
+    console.log("app mounted !");
+    fetch("/api/users-create").then(async () => {
+      console.log("new user created");
+      const users = await fetch("/api/users").then(res => res.json());
+      console.log(users);
+    });
+  }
 
   render() {
     return (

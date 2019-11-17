@@ -11,6 +11,8 @@ services:
     volumes:
       - ./client:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - backend
     # networks:
     #   - mern-network
 
@@ -25,6 +27,8 @@ services:
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
+    depends_on:
+      - mongodb
     # networks:
     #   - mern-network
 
@@ -41,6 +45,17 @@ services:
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
       - frontend
       - backend
+
+  mongodb:
+    container_name: mern_mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db # volume을 만들어두지 않으면 컨테이너가 매번 종료될 때마다 데이터가 초기화됨
 # networks:
 #   mern-network:
 #     driver: bridge
+
+volumes: # mongodb 데이터
+  mongo:
