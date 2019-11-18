@@ -1,0 +1,23 @@
+#app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#connect-btn {
+  all: unset;
+  background: black;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#text-from-server {
+  margin: 30px;
+  padding: 10px;
+  font-weight: 600;
+  background: skyblue;
+  color: white;
+}

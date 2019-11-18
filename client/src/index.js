@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "index.css";
+import Hello from "components/Hello";
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log("app mounted !");
-    fetch("/api/users-create").then(async () => {
+    fetch("/api/users/create").then(async () => {
       console.log("new user created");
       const users = await fetch("/api/users").then(res => res.json());
       console.log(users);
@@ -24,39 +25,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+      <div id="app-container">
         <h1>Hello World, sylee !!</h1>
-        <button
-          onClick={this.handleConnect}
-          style={{
-            all: "unset",
-            background: "black",
-            color: "white",
-            padding: "10px",
-            borderRadius: "10px",
-            cursor: "pointer"
-          }}
-        >
+        <Hello name="mern" source="components" />
+        <button id="connect-btn" onClick={this.handleConnect}>
           Connect to Server
         </button>
-        <div
-          style={{
-            margin: "30px",
-            padding: "10px",
-            fontWeight: "600",
-            background: "skyblue",
-            color: "white"
-          }}
-        >
-          {this.state.value}
-        </div>
+        <div id="text-from-server">{this.state.value}</div>
       </div>
     );
   }

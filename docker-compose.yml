@@ -29,6 +29,8 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - mongodb
+    environment:
+      - NODE_PATH=src
     # networks:
     #   - mern-network
 
