@@ -31,6 +31,7 @@ services:
       - mongodb
     environment:
       - NODE_PATH=src
+      - NODE_ENV=production
     # networks:
     #   - mern-network
 
