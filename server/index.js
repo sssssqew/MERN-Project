@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
@@ -19,8 +19,12 @@ app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(logger("tiny"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // express 4.16 이상은 body-parser를 포함하고 있음
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/api", routes);
 
 app.get("/api/hello", (req, res) => {
