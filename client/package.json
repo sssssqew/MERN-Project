@@ -15,8 +15,8 @@
     ]
   },
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --config ./config/webpack.config.dev --open",
+    "build": "webpack --config ./config/webpack.config.prod"
   },
   "keywords": [],
   "author": "",

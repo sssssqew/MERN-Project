@@ -12,7 +12,8 @@ COPY . /usr/src/app
 
 EXPOSE 3000
 
+# production
 # CMD ["npm", "run", "build"]
 
-# production
+# development
 CMD ["npm", "start"]
