@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <div id="app-container">
         <h1>Hello World, sylee !!</h1>
-        <Hello name="mern" source="components" />
+        <Hello name="mern" source="components" size={3} />
         <button id="connect-btn" onClick={this.handleConnect}>
           Connect to Server
         </button>
