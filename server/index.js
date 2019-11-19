@@ -31,6 +31,17 @@ app.get("/api/hello", (req, res) => {
   res.send("hello mern project from server !!");
 });
 
+// 404 handler
+app.use((req, res, next) => {
+  res.status(404).json({ msg: "Sorry can't find that!" });
+});
+
+// 505 error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ msg: "Something is broken down on server ):" });
+});
+
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
