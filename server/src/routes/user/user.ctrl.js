@@ -1,3 +1,5 @@
+const User = require("models/User");
+
 const read = async (req, res) => {
   const users = await User.find();
   res.json(users);
