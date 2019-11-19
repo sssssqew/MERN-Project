@@ -1,7 +1,7 @@
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 console.log(__dirname);
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     app: ["babel-polyfill", "./src/index.js"]
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "../dist"),
     filename: "index_bundle.js"
     // publicPath: "/" // http://0.0.0.0:3000/index_bundle.js 접속시 빌드 이후의 javascript 볼 수 있음
   },
@@ -57,7 +57,7 @@ module.exports = {
   },
   //절대경로 설정
   resolve: {
-    modules: [path.join(__dirname, "src"), "node_modules"]
+    modules: [path.join(__dirname, "../src"), "node_modules"]
   },
   mode: "development", // production 모드인 경우 CSS, JAVASCRIPT minify, 자바스크립트 번들링 유무에 따라 파일크기가 엄청 다름
   plugins: [
