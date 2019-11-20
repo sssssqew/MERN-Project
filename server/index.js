@@ -9,8 +9,6 @@ const helmet = require("helmet");
 const connectDB = require("connectdb");
 const routes = require("routes");
 
-const PORT = 5000;
-
 connectDB()
   .then(() => console.log("mongodb connected ..."))
   .catch(e => console.log(`failed to connect mongodb: ${e}`));
@@ -42,6 +40,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ msg: "Something is broken down on server ):" });
 });
 
-app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
-});
+module.exports = app;
