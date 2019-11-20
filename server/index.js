@@ -5,6 +5,7 @@ const cors = require("cors");
 const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
+const cluster = require("cluster");
 
 const connectDB = require("connectdb");
 const routes = require("routes");
@@ -19,6 +20,16 @@ app.use(helmet());
 app.use(logger("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // express 4.16 이상은 body-parser를 포함하고 있음
+
+// 사용자가 요청한 워커가 어느 것인지 확인하기 위함
+app.use((req, res, next) => {
+  if (cluster.isWorker) {
+    console.log(
+      `Worker ${cluster.worker.process.pid} received request from user...`
+    );
+    next();
+  }
+});
 
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));

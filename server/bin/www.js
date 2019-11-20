@@ -1,7 +1,7 @@
 const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
 
-const app = require("../index"); // docker compose 환경변수에 NODE_PATH 설정했으므로 경로는 index로 하면 됨
+const app = require("../index"); // 절대경로가 제대로 동작되지 않고 있음
 const PORT = 5000;
 
 if (cluster.isMaster) {
