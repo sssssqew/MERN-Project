@@ -52,6 +52,36 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"] // SASS 빌드
+      },
+      // 이미지, 폰트 빌드
+      // 10kb 이상 파일은 dist 폴더로 복사하고 10k 이하 파일은 문자열로 모듈에 추가함
+      {
+        // write image files under 10k to inline or copy image files over 10k
+        test: /\.(jpg|jpeg|gif|png|svg|ico)?$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              fallback: "file-loader",
+              name: "images/[name].[ext]"
+            }
+          }
+        ]
+      },
+      {
+        // write files under 10k to inline or copy files over 10k
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              fallback: "file-loader",
+              name: "fonts/[name].[ext]"
+            }
+          }
+        ]
       }
     ]
   },

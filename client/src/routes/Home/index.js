@@ -1,4 +1,6 @@
 import React from "react";
+
+import LoadImage from "assets/images/loading.gif";
 import "./Home.scss";
 import Hello from "components/Hello";
 
@@ -27,7 +29,9 @@ class Home extends React.Component {
     return (
       <div>
         {this.state.isLoading ? (
-          "Loading..."
+          <div id="app-container">
+            <img src={LoadImage} alt="loading" />
+          </div>
         ) : (
           <div id="app-container">
             <h1>Hello World, sylee !!</h1>
