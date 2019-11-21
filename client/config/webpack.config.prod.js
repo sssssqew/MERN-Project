@@ -23,7 +23,8 @@ module.exports = {
   devServer: {
     host: "0.0.0.0",
     port: 3000,
-    disableHostCheck: true // local 이외의 host에서도 접속하도록 허용
+    disableHostCheck: true, // local 이외의 host에서도 접속하도록 허용
+    historyApiFallback: true // 리액트 라우터가 제대로 동작하기 위한 설정
     // contentBase: path.resolve(__dirname, "dist"),
   },
   // Loader 적용

@@ -1,40 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "index.scss";
-import Hello from "components/Hello";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: "wait..." };
-  }
-  handleConnect = async () => {
-    const text = await fetch("/api/hello").then(res => res.text());
-    console.log(text);
-    this.setState({ value: text });
-  };
+// import "index.scss";
+import Home from "routes/Home";
+import About from "routes/About";
 
-  componentDidMount() {
-    console.log("app mounted !");
-    fetch("/api/users/create").then(async () => {
-      console.log("new user created");
-      const users = await fetch("/api/users").then(res => res.json());
-      console.log(users);
-    });
-  }
-
-  render() {
-    return (
-      <div id="app-container">
-        <h1>Hello World, sylee !!</h1>
-        <Hello name="mern" source="components" size={3} />
-        <button id="connect-btn" onClick={this.handleConnect}>
-          Connect to Server
-        </button>
-        <div id="text-from-server">{this.state.value}</div>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+      </Switch>
+    </Router>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));
