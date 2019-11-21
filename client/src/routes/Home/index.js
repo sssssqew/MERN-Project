@@ -5,7 +5,7 @@ import Hello from "components/Hello";
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "wait..." };
+    this.state = { value: "wait...", isLoading: true };
   }
   handleConnect = async () => {
     const text = await fetch("/api/hello").then(res => res.text());
@@ -19,18 +19,25 @@ class Home extends React.Component {
       console.log("new user created");
       const users = await fetch("/api/users").then(res => res.json());
       console.log(users);
+      this.setState({ isLoading: false });
     });
   }
 
   render() {
     return (
-      <div id="app-container">
-        <h1>Hello World, sylee !!</h1>
-        <Hello name="mern" source="components" size={3} />
-        <button id="connect-btn" onClick={this.handleConnect}>
-          Connect to Server
-        </button>
-        <div id="text-from-server">{this.state.value}</div>
+      <div>
+        {this.state.isLoading ? (
+          "Loading..."
+        ) : (
+          <div id="app-container">
+            <h1>Hello World, sylee !!</h1>
+            <Hello name="mern" source="components" size={3} />
+            <button id="connect-btn" onClick={this.handleConnect}>
+              Connect to Server
+            </button>
+            <div id="text-from-server">{this.state.value}</div>
+          </div>
+        )}
       </div>
     );
   }
