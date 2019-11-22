@@ -1,25 +1,8 @@
-$fontColor: white;
-
-#app-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+@font-face {
+  font-family: "arvo";
+  src: local("assets/fonts/arvo"), url(assets/fonts/arvo.woff);
 }
 
-#connect-btn {
-  all: unset;
-  background: black;
-  color: $fontColor;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-#text-from-server {
-  margin: 30px;
-  padding: 10px;
-  font-weight: 600;
-  background: skyblue;
-  color: $fontColor;
+body {
+  font-family: "arvo";
 }

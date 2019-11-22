@@ -1,13 +1,14 @@
 import React from "react";
 
 import LoadImage from "assets/images/loading.gif";
+
 import "./Home.scss";
 import Hello from "components/Hello";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "wait...", isLoading: true };
+    this.state = { value: "wait...", isLoading: false };
   }
   handleConnect = async () => {
     const text = await fetch("/api/hello").then(res => res.text());
