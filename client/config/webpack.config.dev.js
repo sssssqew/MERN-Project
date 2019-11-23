@@ -1,7 +1,8 @@
-var path = require("path");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 console.log(__dirname);
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
   // 서버 설정
   devServer: {
     host: "0.0.0.0",
-    port: 3000,
+    port: process.env.REACT_PORT,
     disableHostCheck: true, // local 이외의 host에서도 접속하도록 허용
     historyApiFallback: true // 리액트 라우터가 제대로 동작하기 위한 설정
     // contentBase: path.resolve(__dirname, "dist"),
@@ -98,6 +99,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "style.css" // 빌드 이후의 CSS 파일명
     }),
-    new CleanWebpackPlugin() // 사용하지 않는 빌드 파일 삭제
+    new CleanWebpackPlugin(), // 사용하지 않는 빌드 파일 삭제
+    new webpack.DefinePlugin({
+      // 리액트 소스코드에 환경변수 주입
+      "process.env.REACT_PORT": JSON.stringify(process.env.REACT_PORT)
+    })
   ]
 };

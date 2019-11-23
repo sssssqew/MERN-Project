@@ -8,7 +8,7 @@ import Hello from "components/Hello";
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "wait...", isLoading: false };
+    this.state = { value: "wait...", isLoading: true };
   }
   handleConnect = async () => {
     const text = await fetch("/api/hello").then(res => res.text());
@@ -27,6 +27,7 @@ class Home extends React.Component {
   }
 
   render() {
+    console.log("REACT PORT:", process.env.REACT_PORT);
     return (
       <div>
         {this.state.isLoading ? (

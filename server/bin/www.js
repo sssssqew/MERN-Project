@@ -2,7 +2,7 @@ const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
 
 const app = require("../index"); // 절대경로가 제대로 동작되지 않고 있음
-const PORT = 5000;
+console.log(`SERVER PORT: ${process.env.NODE_PORT}`);
 
 if (cluster.isMaster) {
   for (let i = 0; i < numCPUs; i++) {
@@ -16,7 +16,7 @@ if (cluster.isMaster) {
     console.log(`Worker started with PID ${worker.process.pid}`);
   });
 } else {
-  app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
+  app.listen(process.env.NODE_PORT, () => {
+    console.log(`server is running on port ${process.env.NODE_PORT}`);
   });
 }

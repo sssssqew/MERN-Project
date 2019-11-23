@@ -10,6 +10,7 @@ RUN npm install
 
 COPY . /usr/src/app
 
-EXPOSE 5000
+ARG NODE_PORT
+EXPOSE ${NODE_PORT}
 
 CMD ["npm", "run", "dev"]

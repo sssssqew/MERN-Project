@@ -10,7 +10,8 @@ RUN npm install
 
 COPY . /usr/src/app
 
-EXPOSE 3000
+ARG REACT_PORT
+EXPOSE ${REACT_PORT}
 
 # production
 # CMD ["npm", "run", "build"]

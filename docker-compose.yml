@@ -5,25 +5,33 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+      args:
+        REACT_PORT: ${REACT_PORT}
     image: sylee/mern_web
     ports:
-      - "3000:3000"
+      - "${REACT_PORT}:${REACT_PORT}"
     volumes:
       - ./client:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - backend
+    environment:
+      - REACT_PORT=${REACT_PORT}
     # networks:
     #   - mern-network
+    env_file:
+      - .env
 
   backend:
     container_name: mern_server
     build:
       context: ./server
       dockerfile: Dockerfile
+      args:
+        NODE_PORT: ${NODE_PORT}
     image: sylee/mern_server
     ports:
-      - "5000:5000"
+      - "${NODE_PORT}:${NODE_PORT}"
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
@@ -32,6 +40,9 @@ services:
     environment:
       - NODE_PATH=src
       - NODE_ENV=production
+      # - NODE_PORT=5000
+    env_file:
+      - .env
     # networks:
     #   - mern-network
 
@@ -42,18 +53,24 @@ services:
       dockerfile: Dockerfile
     image: sylee/mern_nginx
     ports:
-      - "80:80"
+      - "${NGINX_PORT}:${NGINX_PORT}"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/mern.conf
     # networks:
     #   - mern-network
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
       - frontend
       - backend
+    environment:
+      - NODE_PORT=${NODE_PORT}
+      - REACT_PORT=${REACT_PORT}
+      - NGINX_PORT=${NGINX_PORT}
 
   mongodb:
     container_name: mern_mongo
     image: mongo
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT}:${MONGO_PORT}"
     volumes:
       - mongo:/data/db # volume을 만들어두지 않으면 컨테이너가 매번 종료될 때마다 데이터가 초기화됨
 # networks:
