@@ -1,10 +1,5 @@
 const User = require("models/User");
 
-const read = async (req, res) => {
-  const users = await User.find();
-  res.json(users);
-};
-
 const create = async (req, res) => {
   const newUser = new User({ username: "test-user" });
   await newUser.save().then(() => {
@@ -13,7 +8,18 @@ const create = async (req, res) => {
   });
 };
 
+const read = async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+};
+
+const remove = async (req, res) => {
+  await User.remove({});
+  res.json({ success: true });
+};
+
 module.exports = {
+  create,
   read,
-  create
+  remove
 };

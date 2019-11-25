@@ -18,8 +18,8 @@ class Home extends React.Component {
 
   componentDidMount() {
     console.log("app mounted !");
-    fetch("/api/users/create").then(async () => {
-      console.log("new user created");
+    fetch("/api/users/delete").then(async () => {
+      console.log("all user deleted");
       const users = await fetch("/api/users").then(res => res.json());
       console.log(users);
       this.setState({ isLoading: false });
