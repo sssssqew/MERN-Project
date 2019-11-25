@@ -22,16 +22,19 @@ services:
     env_file:
       - .env
 
+  # execute with sudo docker-compose up --scale backend=2 for load balancing
   backend:
-    container_name: mern_server
+    # container_name: mern_server
     build:
       context: ./server
       dockerfile: Dockerfile
       args:
         NODE_PORT: ${NODE_PORT}
     image: sylee/mern_server
-    ports:
-      - "${NODE_PORT}:${NODE_PORT}"
+    # ports:
+    #   - "${NODE_PORT}:${NODE_PORT}"
+    expose:
+      - "${NODE_PORT}"
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
@@ -46,29 +49,29 @@ services:
     # networks:
     #   - mern-network
 
-  backend_second:
-    container_name: mern_server_second
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      args:
-        NODE_PORT: ${NODE_PORT_SECOND}
-    image: sylee/mern_server_second
-    ports:
-      - "${NODE_PORT_SECOND}:${NODE_PORT_SECOND}"
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - mongodb
-    environment:
-      - NODE_PATH=src
-      - NODE_ENV=production
-      - NODE_PORT=${NODE_PORT_SECOND}
-    env_file:
-      - .env
-    # networks:
-    #   - mern-network
+  # backend_second:
+  #   container_name: mern_server_second
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #     args:
+  #       NODE_PORT: ${NODE_PORT_SECOND}
+  #   image: sylee/mern_server_second
+  #   ports:
+  #     - "${NODE_PORT_SECOND}:${NODE_PORT_SECOND}"
+  #   volumes:
+  #     - ./server:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - mongodb
+  #   environment:
+  #     - NODE_PATH=src
+  #     - NODE_ENV=production
+  #     - NODE_PORT=${NODE_PORT_SECOND}
+  #   env_file:
+  #     - .env
+  # networks:
+  #   - mern-network
 
   nginx:
     container_name: mern_nginx
@@ -85,10 +88,10 @@ services:
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
       - frontend
       - backend
-      - backend_second
+      # - backend_second
     environment:
       - NODE_PORT=${NODE_PORT}
-      - NODE_PORT_SECOND=${NODE_PORT_SECOND}
+      # - NODE_PORT_SECOND=${NODE_PORT_SECOND}
       - REACT_PORT=${REACT_PORT}
       - NGINX_PORT=${NGINX_PORT}
 
