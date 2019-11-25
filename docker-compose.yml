@@ -22,7 +22,7 @@ services:
     env_file:
       - .env
 
-  # execute with sudo docker-compose up --scale backend=2 for load balancing
+  # execute with sudo docker-compose up --scale backend=SERVER_NUM for load balancing
   backend:
     # container_name: mern_server
     build:
@@ -34,7 +34,7 @@ services:
     # ports:
     #   - "${NODE_PORT}:${NODE_PORT}"
     expose:
-      - "${NODE_PORT}"
+      - "${NODE_PORT}" # set only internal ports of backend containers for load balancing
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
@@ -43,7 +43,6 @@ services:
     environment:
       - NODE_PATH=src
       - NODE_ENV=production
-      # - NODE_PORT=5000
     env_file:
       - .env
     # networks:
@@ -83,6 +82,7 @@ services:
       - "${NGINX_PORT}:${NGINX_PORT}"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/mern.conf
+      - ./client/dist:/var/www # map react build folder as nginx root
     # networks:
     #   - mern-network
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
@@ -101,7 +101,7 @@ services:
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     volumes:
-      - mongo:/data/db # volume을 만들어두지 않으면 컨테이너가 매번 종료될 때마다 데이터가 초기화됨
+      - mongo:/data/db # volumes를 만들어두지 않으면 컨테이너가 매번 종료될 때마다 데이터가 초기화됨
 # networks:
 #   mern-network:
 #     driver: bridge

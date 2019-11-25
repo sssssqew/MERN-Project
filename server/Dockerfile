@@ -13,4 +13,8 @@ COPY . /usr/src/app
 ARG NODE_PORT
 EXPOSE ${NODE_PORT}
 
-CMD ["npm", "run", "dev"]
+#development
+# CMD ["npm", "run", "dev"]
+
+#production
+CMD ["npm", "run", "prod"]
