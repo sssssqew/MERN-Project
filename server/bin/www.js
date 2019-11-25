@@ -1,10 +1,11 @@
 const cluster = require("cluster");
-const numContainers = 2;
+const numContainers = process.env.SERVER_NUM;
 const numCPUs = require("os").cpus().length;
 const numWorkers = numCPUs / numContainers; // 코어수(4)를 컨테이너수(2)로 나누면 워커수(2)가 나옴
 
 const app = require("../index"); // 절대경로가 제대로 동작되지 않고 있음
 console.log(`SERVER PORT: ${process.env.NODE_PORT}`);
+console.log(`SERVER NUM: ${process.env.SERVER_NUM}`);
 
 if (cluster.isMaster) {
   console.log(`WORKER NUM: ${numWorkers}`);
