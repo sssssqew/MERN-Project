@@ -85,6 +85,7 @@ services:
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
       - frontend
       - backend
+      - backend_second
     environment:
       - NODE_PORT=${NODE_PORT}
       - NODE_PORT_SECOND=${NODE_PORT_SECOND}
