@@ -17,9 +17,6 @@ EXPOSE ${REACT_PORT}
 # CMD ["npm", "start"]
 
 # production
-# CMD는 도커 이미지를 만든후 도커 컨테이너가 실행될때 함께 실행됨
-# RUN은 리액트 이미지가 만들어질때 함께 실행됨
-# Nginx 도커 이미지가 생성될때 리액트의 빌드 파일들이 필요하므로 CMD가 아니라 RUN으로 실행해야함
-# docker-compose.yml의 depends_on 옵션 때문에 리액트 이미지가 먼저 생성되므로 
-# 이때 리액트 빌드파일이 생성되어야 Nginx 이미지가 생성되는 시점에 빌드파일을 nginx.conf 에서 사용할 수 있음
-RUN ["npm", "run", "build"] 
+# RUN으로 실행하면 dist 폴더가 생성되지 않고 제대로 빌드되지 않음
+# 아마도 컨테이너 내부에 dist폴더가 생성되지만 nginx 컨테이너에서 접근하지 못하는것 같음
+CMD ["npm", "run", "build"]  
