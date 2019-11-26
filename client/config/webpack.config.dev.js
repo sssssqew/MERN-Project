@@ -93,7 +93,8 @@ module.exports = {
   mode: "development", // production 모드인 경우 CSS, JAVASCRIPT minify, 자바스크립트 번들링 유무에 따라 파일크기가 엄청 다름
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html" // 빌드 전 HTML 파일 위치
+      template: "src/index.html", // 빌드 전 HTML 파일 위치
+      favicon: "src/assets/images/favicon.ico"
     }),
     // css 파일을 따로 추출함
     new MiniCssExtractPlugin({

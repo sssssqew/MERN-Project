@@ -1,0 +1,19 @@
+FROM node:lts-slim as builder
+
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY package*.json /usr/src/app/
+
+RUN npm install
+
+COPY . /usr/src/app
+
+ARG REACT_PORT
+EXPOSE ${REACT_PORT}
+
+# development
+CMD ["npm", "start"]
+
+

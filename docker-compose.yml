@@ -4,7 +4,8 @@ services:
     container_name: mern_web
     build:
       context: ./client
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
       args:
         REACT_PORT: ${REACT_PORT}
     image: sylee/mern_web
@@ -27,7 +28,8 @@ services:
     # container_name: mern_server
     build:
       context: ./server
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
       args:
         NODE_PORT: ${NODE_PORT}
     image: sylee/mern_server
@@ -48,50 +50,26 @@ services:
     # networks:
     #   - mern-network
 
-  # backend_second:
-  #   container_name: mern_server_second
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #     args:
-  #       NODE_PORT: ${NODE_PORT_SECOND}
-  #   image: sylee/mern_server_second
-  #   ports:
-  #     - "${NODE_PORT_SECOND}:${NODE_PORT_SECOND}"
-  #   volumes:
-  #     - ./server:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   depends_on:
-  #     - mongodb
-  #   environment:
-  #     - NODE_PATH=src
-  #     - NODE_ENV=production
-  #     - NODE_PORT=${NODE_PORT_SECOND}
-  #   env_file:
-  #     - .env
-  # networks:
-  #   - mern-network
-
   nginx:
     container_name: mern_nginx
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
     image: sylee/mern_nginx
     ports:
       - "${NGINX_PORT}:${NGINX_PORT}"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/mern.conf
+      # - ./nginx/nginx.conf:/etc/nginx/mern.conf
+      - ./nginx/nginx.dev.conf:/etc/nginx/mern.dev.conf # for development
       - ./client/dist:/var/www # map react build folder as nginx root
     # networks:
     #   - mern-network
     depends_on: # nginx가 host(frontend, backend)를 인식할 수 있기 위함
       - frontend
       - backend
-      # - backend_second
     environment:
       - NODE_PORT=${NODE_PORT}
-      # - NODE_PORT_SECOND=${NODE_PORT_SECOND}
       - REACT_PORT=${REACT_PORT}
       - NGINX_PORT=${NGINX_PORT}
 
