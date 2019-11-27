@@ -9,8 +9,8 @@ services:
     container_name: mern_web
     build:
       context: ./client
-      dockerfile: Dockerfile
-      # dockerfile: Dockerfile.dev # for development
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
       args:
         REACT_PORT: ${REACT_PORT}
     image: sylee/mern_web
@@ -33,8 +33,8 @@ services:
     # container_name: mern_server
     build:
       context: ./server
-      dockerfile: Dockerfile
-      # dockerfile: Dockerfile.dev # for development
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
       args:
         NODE_PORT: ${NODE_PORT}
     image: sylee/mern_server
@@ -59,14 +59,14 @@ services:
     container_name: mern_nginx
     build:
       context: ./nginx
-      dockerfile: Dockerfile
-      # dockerfile: Dockerfile.dev # for development
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev # for development
     image: sylee/mern_nginx
     ports:
       - "${NGINX_PORT}:${NGINX_PORT}"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/mern.conf
-      # - ./nginx/nginx.dev.conf:/etc/nginx/mern.dev.conf # for development
+      # - ./nginx/nginx.conf:/etc/nginx/mern.conf
+      - ./nginx/nginx.dev.conf:/etc/nginx/mern.dev.conf # for development
       - ./client/dist:/var/www # 리액트를 웹팩으로 빌드(컴파일)한 폴더를 nginx의 root 폴더인 /var/www 로 맵핑해서 정적파일을 로드함
     # networks:
     #   - mern-network

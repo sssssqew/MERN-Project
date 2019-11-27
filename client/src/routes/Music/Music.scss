@@ -1,0 +1,22 @@
+#music-container {
+  display: flex;
+  justify-content: center;
+  font-family: "ng";
+  font-weight: 600;
+
+  #add-music-btn {
+    background: white;
+    border: 1px solid black;
+    margin-right: 10px;
+    cursor: pointer;
+
+    img {
+      width: 320px;
+      height: 220px;
+      &:hover {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+    }
+  }
+}

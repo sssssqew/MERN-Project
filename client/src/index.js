@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "index.scss";
 import Home from "routes/Home";
 import About from "routes/About";
+import Music from "routes/Music";
 import NotFound from "routes/NotFound";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
+        <Route path="/musics" component={Music} />
         <Route component={NotFound} />
       </Switch>
     </Router>

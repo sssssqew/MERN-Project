@@ -1,0 +1,82 @@
+@keyframes modalFade {
+  from {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+
+  .modal-main {
+    position: fixed;
+    background: white;
+    width: 500px;
+    height: auto;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    animation-name: modalFade;
+    animation-duration: 0.5s;
+
+    p.title {
+      font-size: 16pt;
+      font-weight: bold;
+      color: #333;
+    }
+    .content {
+      border-top: 1px solid #bebebe;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      p {
+        padding: 8px;
+        font-size: 12pt;
+        color: #999;
+      }
+    }
+
+    .close-btn {
+      // border: 1px solid black;
+      margin: 0;
+      margin-top: 8px;
+      button {
+        all: unset;
+        width: 100%;
+        color: white;
+        font-size: 13pt;
+        cursor: pointer;
+        padding: 12px 0;
+        border-radius: 0 0 10px 10px;
+        background-color: #ad7cef;
+        &:hover {
+          background-color: #7f49c8;
+        }
+        &:active {
+          background-color: #7e49c8;
+        }
+      }
+    }
+  }
+}
+
+.display-block {
+  display: block;
+}
+.display-none {
+  display: none;
+}
