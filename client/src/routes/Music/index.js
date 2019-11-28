@@ -16,7 +16,8 @@ class Music extends React.Component {
     isNotFilledAll: false,
     title: "",
     artist: "",
-    videoId: ""
+    videoId: "",
+    selectedVideoId: ""
   };
   getMusics = async () => {
     const musics = await fetch("/api/musics").then(res => res.json());
@@ -66,6 +67,8 @@ class Music extends React.Component {
   };
   componentDidMount() {
     this.getMusics();
+    console.log(this.state.musics);
+    // this.setState({ selectedVideoId: this.state.musics[0].videoId });
   }
 
   render() {
@@ -88,7 +91,9 @@ class Music extends React.Component {
       playMusicVideo
     } = this;
     console.log(selectedVideoId);
-    const url = `https://www.youtube.com/embed/${selectedVideoId}`;
+    const url = `https://www.youtube.com/embed/${
+      selectedVideoId ? selectedVideoId : musics[0] ? musics[0].videoId : "" // 처음 로딩시에는 첫번째 비디오를 가져옴
+    }`;
 
     return (
       <div>
@@ -150,13 +155,13 @@ class Music extends React.Component {
               >
                 <img src={addBtnImage} alt="add-music" />
               </div>
-              {musics.map((music, key) => {
+              {musics.map((music, index) => {
                 // console.log(music._id);
+                // key는 각 아이템의 가장 상위 tag에 부여해야 함
                 return (
-                  <div className="music-item-container">
+                  <div className="music-item-container" key={music._id}>
                     <MusicItem
                       id={music._id}
-                      key={key}
                       title={music.title}
                       artist={music.artist}
                       videoId={music.videoId}

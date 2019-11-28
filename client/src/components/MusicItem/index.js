@@ -3,7 +3,8 @@ import React from "react";
 import "./MusicItem.scss";
 
 const MusicItem = ({ id, title, artist, videoId, star, onPlay }) => {
-  const url = `http://img.youtube.com/vi/${videoId}/0.jpg`; // iframe: https://www.youtube.com/embed/${videoId}
+  const url = `http://img.youtube.com/vi/${videoId}/hqdefault.jpg`; // iframe: https://www.youtube.com/embed/${videoId}
+  // console.log(title, url);
   return (
     <div id="musicitem-container">
       <div>
