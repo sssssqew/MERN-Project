@@ -2,15 +2,20 @@
   width: 60%;
   // background: violet;
   margin-bottom: 15px;
-  border-bottom: 1px solid violet;
+  border-bottom: 1px solid #f8585b;
 
   input {
     width: 100%;
     border: none;
     padding: 5px;
     outline: none;
+    caret-color: #f8585b;
+    font-size: 15pt;
+    font-weight: 600;
+    color: #f33437;
+
     &::placeholder {
-      color: violet;
+      color: #f8585b;
       font-style: italic;
       font-weight: 600;
       font-size: 13pt;

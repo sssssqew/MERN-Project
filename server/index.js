@@ -6,9 +6,15 @@ const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
 const cluster = require("cluster");
+const mongoose = require("mongoose");
 
 const connectDB = require("connectdb");
 const routes = require("routes");
+
+// remove deprecated error
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 connectDB()
   .then(() => console.log("mongodb connected ..."))

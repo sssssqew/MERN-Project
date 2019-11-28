@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.85);
 
   .modal-main {
     position: fixed;
@@ -31,6 +31,19 @@
     animation-name: modalFade;
     animation-duration: 0.5s;
 
+    .close-btn {
+      // border: 1px solid red;
+      float: right;
+      text-align: right;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      margin: 5px;
+      img {
+        width: 100%;
+      }
+    }
+
     p.title {
       font-size: 16pt;
       font-weight: bold;
@@ -45,12 +58,17 @@
       align-items: center;
       p {
         padding: 8px;
-        font-size: 12pt;
+        font-size: 13pt;
         color: #999;
+      }
+      #error-message {
+        color: #f33437;
+        font-size: 20pt;
+        font-weight: bold;
       }
     }
 
-    .close-btn {
+    .add-music-btn {
       // border: 1px solid black;
       margin: 0;
       margin-top: 8px;
@@ -62,12 +80,12 @@
         cursor: pointer;
         padding: 12px 0;
         border-radius: 0 0 10px 10px;
-        background-color: #ad7cef;
+        background-color: #f8585b; // #ad7cef : violet
         &:hover {
-          background-color: #7f49c8;
+          background-color: #f33437;
         }
         &:active {
-          background-color: #7e49c8;
+          background-color: #f33437;
         }
       }
     }

@@ -1,5 +1,25 @@
 #musicitem-container {
-  margin-right: 10px;
-  // flex: 0 1 20%;
-  border: 1px solid red;
+  margin: 10px;
+  box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.5);
+  width: 300px;
+  max-height: 200px;
+
+  .musicitem-thumbnail {
+    // min-width: 350px;
+    cursor: pointer;
+    &:hover {
+      transform: scale(0.99);
+      opacity: 0.7;
+    }
+    img {
+      width: 100%;
+      height: 200px;
+    }
+  }
+
+  .title-text {
+    margin-top: 10px;
+    margin-left: 5px;
+    color: rgb(61, 59, 59);
+  }
 }
