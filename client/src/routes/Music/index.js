@@ -23,6 +23,11 @@ class Music extends React.Component {
     selectedVideoId: "",
     msg: ""
   };
+  storeValidStar = str => {
+    let evalNum = parseFloat(str);
+    evalNum = isNaN(evalNum) ? 0 : evalNum > 5 ? 5 : evalNum;
+    return evalNum;
+  };
   deleteMusic = async (e, id) => {
     const { getMusics, showNotification } = this;
     console.log("delete id: ", id);
@@ -41,9 +46,8 @@ class Music extends React.Component {
   };
   addMusic = async () => {
     const { title, artist, videoId } = this.state;
-    const { getMusics, hideModal, showNotification } = this;
-    let star = parseFloat(this.state.star);
-    star = isNaN(star) ? 0 : star > 5 ? 5 : star;
+    const { getMusics, hideModal, showNotification, storeValidStar } = this;
+    const star = storeValidStar(this.state.star);
 
     if (title && artist && videoId) {
       const { msg } = await fetch("/api/musics", {
