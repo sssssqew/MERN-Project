@@ -49,7 +49,7 @@ class MusicItem extends React.Component {
         </div>
 
         <div className="title-text">
-          {title} - {artist}
+          {title} - {artist} ({star})
         </div>
       </div>
     );

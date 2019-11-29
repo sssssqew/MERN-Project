@@ -19,6 +19,7 @@ class Music extends React.Component {
     title: "",
     artist: "",
     videoId: "",
+    star: "",
     selectedVideoId: "",
     msg: ""
   };
@@ -41,6 +42,8 @@ class Music extends React.Component {
   addMusic = async () => {
     const { title, artist, videoId } = this.state;
     const { getMusics, hideModal, showNotification } = this;
+    let star = parseFloat(this.state.star);
+    star = isNaN(star) ? 0 : star > 5 ? 5 : star;
 
     if (title && artist && videoId) {
       const { msg } = await fetch("/api/musics", {
@@ -48,7 +51,7 @@ class Music extends React.Component {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, artist, videoId })
+        body: JSON.stringify({ title, artist, videoId, star })
       }).then(res => res.json());
 
       hideModal();
@@ -59,7 +62,8 @@ class Music extends React.Component {
         isNotFilledAll: false,
         title: "",
         artist: "",
-        videoId: ""
+        videoId: "",
+        star: ""
       });
     } else {
       this.setState({ isNotFilledAll: true });
@@ -72,6 +76,7 @@ class Music extends React.Component {
     this.setState({ isShow: false });
   };
   handleChange = e => {
+    // console.log(typeof e.target.value);
     console.log(`${e.target.name}: ${e.target.value}`);
     this.setState({
       [e.target.name]: e.target.value
@@ -106,6 +111,7 @@ class Music extends React.Component {
       title,
       artist,
       videoId,
+      star,
       notifyActive,
       msg
     } = this.state;
@@ -172,6 +178,12 @@ class Music extends React.Component {
                   placeholder="Type song id..."
                   onChange={handleChange}
                   value={videoId}
+                />
+                <Input
+                  name="star"
+                  placeholder="Type song star... (<= 5.0)"
+                  onChange={handleChange}
+                  value={star}
                 />
               </div>
             </Modal>
