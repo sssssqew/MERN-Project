@@ -22,6 +22,18 @@ class Music extends React.Component {
     selectedVideoId: "",
     msg: ""
   };
+  deleteMusic = async (e, id) => {
+    const { getMusics, showNotification } = this;
+    console.log("delete id: ", id);
+    const { msg } = await fetch(`/api/musics/${id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json());
+    getMusics();
+    showNotification(msg);
+  };
   getMusics = async () => {
     const musics = await fetch("/api/musics").then(res => res.json());
     this.setState({ musics, isLoading: false });
@@ -69,7 +81,7 @@ class Music extends React.Component {
     // onClick의 첫번째 인자는 event 객체이기 때문에 두번째 인자로 id를 넘겨줌
     const { musics } = this.state;
     const selectedVideo = musics.filter(music => music._id === id);
-    console.log("selectedVideo: ", selectedVideo[0]);
+    // console.log("selectedVideo: ", selectedVideo[0]);
     this.setState({ selectedVideoId: selectedVideo[0].videoId });
   };
   showNotification = msg => {
@@ -81,8 +93,6 @@ class Music extends React.Component {
   };
   componentDidMount() {
     this.getMusics();
-    console.log(this.state.musics);
-    // this.setState({ selectedVideoId: this.state.musics[0].videoId });
   }
 
   render() {
@@ -104,7 +114,8 @@ class Music extends React.Component {
       hideModal,
       addMusic,
       handleChange,
-      playMusicVideo
+      playMusicVideo,
+      deleteMusic
     } = this;
     console.log(selectedVideoId);
     const url = `https://www.youtube.com/embed/${
@@ -185,6 +196,7 @@ class Music extends React.Component {
                       videoId={music.videoId}
                       star={music.star}
                       onPlay={playMusicVideo}
+                      onDelete={deleteMusic}
                     />
                   </div>
                 );

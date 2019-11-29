@@ -1,9 +1,5 @@
 const Music = require("models/Music");
 
-/*
-state code
-0 : 
-*/
 const index = async (req, res) => {
   const Musics = await Music.find();
   res.json(Musics);
@@ -26,7 +22,15 @@ const create = (req, res) => {
   });
 };
 
+const remove = (req, res) => {
+  Music.findByIdAndRemove(req.params.id, (err, Music) => {
+    if (err) throw err;
+    res.json({ status: 204, msg: `${Music.title} is deleted successfully !` });
+  });
+};
+
 module.exports = {
   index,
-  create
+  create,
+  remove
 };

@@ -1,0 +1,45 @@
+@keyframes dropdownFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+// @keyframes dropdownFadeout {
+//   from {
+//     opacity: 1;
+//   }
+//   to {
+//     opacity: 0;
+//   }
+// }
+
+.dropdown-container {
+  position: absolute;
+  width: 20%;
+  top: 40px;
+  right: 20px;
+  // z-index: 3;
+  background: white;
+  animation: dropdownFadein 0.5s;
+
+  .dropdown-item {
+    z-index: 3;
+    padding: 10px;
+    color: #f33437;
+    border-bottom: 1px solid #e6e8ea;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    &:hover {
+      background: #f33437;
+      color: #e6e8ea;
+    }
+  }
+  .display-block {
+    display: block;
+  }
+  .display-none {
+    display: none;
+  }
+}
