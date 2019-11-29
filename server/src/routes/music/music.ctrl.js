@@ -1,5 +1,9 @@
 const Music = require("models/Music");
 
+/*
+state code
+0 : 
+*/
 const index = async (req, res) => {
   const Musics = await Music.find();
   res.json(Musics);
@@ -13,11 +17,11 @@ const create = (req, res) => {
     if (!result) {
       const newMusic = new Music(req.body);
       await newMusic.save().then(() => {
-        res.json(newMusic);
+        res.json({ status: 201, msg: "Music saved in db successfully !" });
       });
     } else {
       console.log("this video already exists in db !!");
-      res.json(result);
+      res.json({ status: 204, msg: "Music already exists in db ):" });
     }
   });
 };

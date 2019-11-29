@@ -7,6 +7,7 @@ import "./Music.scss";
 import MusicItem from "components/MusicItem";
 import Modal from "components/Modal";
 import Input from "components/Input";
+import Notification from "components/Notification";
 
 class Music extends React.Component {
   state = {
@@ -14,10 +15,12 @@ class Music extends React.Component {
     isLoading: true,
     isShow: false,
     isNotFilledAll: false,
+    notifyActive: false,
     title: "",
     artist: "",
     videoId: "",
-    selectedVideoId: ""
+    selectedVideoId: "",
+    msg: ""
   };
   getMusics = async () => {
     const musics = await fetch("/api/musics").then(res => res.json());
@@ -25,18 +28,21 @@ class Music extends React.Component {
   };
   addMusic = async () => {
     const { title, artist, videoId } = this.state;
-    const { getMusics, hideModal } = this;
+    const { getMusics, hideModal, showNotification } = this;
 
     if (title && artist && videoId) {
-      const newUser = await fetch("/api/musics", {
+      const { msg } = await fetch("/api/musics", {
         method: "post",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ title, artist, videoId })
       }).then(res => res.json());
+
       hideModal();
       getMusics();
+      showNotification(msg);
+
       this.setState({
         isNotFilledAll: false,
         title: "",
@@ -60,10 +66,18 @@ class Music extends React.Component {
     });
   };
   playMusicVideo = (e, id) => {
+    // onClick의 첫번째 인자는 event 객체이기 때문에 두번째 인자로 id를 넘겨줌
     const { musics } = this.state;
     const selectedVideo = musics.filter(music => music._id === id);
     console.log("selectedVideo: ", selectedVideo[0]);
     this.setState({ selectedVideoId: selectedVideo[0].videoId });
+  };
+  showNotification = msg => {
+    this.setState({ notifyActive: true, msg: msg }, () => {
+      setTimeout(() => {
+        this.setState({ notifyActive: false, msg: "" });
+      }, 3500);
+    });
   };
   componentDidMount() {
     this.getMusics();
@@ -81,7 +95,9 @@ class Music extends React.Component {
       selectedVideoId,
       title,
       artist,
-      videoId
+      videoId,
+      notifyActive,
+      msg
     } = this.state;
     const {
       showModal,
@@ -112,6 +128,8 @@ class Music extends React.Component {
                 frameBorder="0"
               ></iframe>
             </div>
+
+            <Notification active={notifyActive} msg={msg} />
 
             <Modal isShow={isShow} onCreate={addMusic} onClose={hideModal}>
               <p className="title">Title</p>

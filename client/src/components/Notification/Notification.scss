@@ -1,0 +1,45 @@
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 50px;
+    opacity: 1;
+  }
+}
+@keyframes fadeout {
+  from {
+    top: 50px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+.notify {
+  background: #444;
+  color: white;
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  width: 200px;
+  z-index: 1;
+  padding: 5px;
+  text-align: center;
+  font-size: 14pt;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+
+  p {
+    margin: 10px;
+  }
+}
+.display-block {
+  display: block;
+}
+.display-none {
+  display: none;
+}
