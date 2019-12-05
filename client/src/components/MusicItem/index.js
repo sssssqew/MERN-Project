@@ -31,7 +31,7 @@ class MusicItem extends React.Component {
   }
 
   render() {
-    const { id, title, artist, videoId, star, onPlay, onDelete } = this.props;
+    const { id, title, artist, videoId, star, onPlay, onShow } = this.props;
     const { toggleDropdownMenu } = this;
     const { showDropdown } = this.state;
     const url = `http://img.youtube.com/vi/${videoId}/hqdefault.jpg`; // iframe: https://www.youtube.com/embed/${videoId}
@@ -45,7 +45,7 @@ class MusicItem extends React.Component {
           <div className="dropdown-options" onClick={toggleDropdownMenu}>
             <img src={ThreeDotsImage} alt="options" />
           </div>
-          <Dropdown show={showDropdown} onDelete={onDelete} id={id} />
+          <Dropdown showDropdown={showDropdown} onShow={onShow} id={id} />
         </div>
 
         <div className="title-text">

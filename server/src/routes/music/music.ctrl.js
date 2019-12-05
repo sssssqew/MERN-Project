@@ -1,19 +1,29 @@
 const Music = require("models/Music");
 
 const index = async (req, res) => {
-  const Musics = await Music.find();
-  res.json(Musics);
+  const musics = await Music.find();
+  res.json(musics);
+};
+
+const read = async (req, res) => {
+  Music.findById(req.params.id, (err, music) => {
+    if (err) throw err;
+    res.json(music);
+  });
 };
 
 const create = (req, res) => {
   console.log("video id: ", req.body.videoId);
-  Music.findOne({ videoId: req.body.videoId }, async (err, result) => {
+  Music.findOne({ videoId: req.body.videoId }, async (err, music) => {
     if (err) throw err;
     // 중복체크
-    if (!result) {
+    if (!music) {
       const newMusic = new Music(req.body);
       await newMusic.save().then(() => {
-        res.json({ status: 201, msg: "Music saved in db successfully !" });
+        res.json({
+          status: 201,
+          msg: "New Music video created in db successfully !"
+        });
       });
     } else {
       console.log("this video already exists in db !!");
@@ -22,15 +32,32 @@ const create = (req, res) => {
   });
 };
 
+const update = (req, res) => {
+  Music.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, music) => {
+      if (err) throw err;
+      res.json({
+        status: 204,
+        msg: `${music.title} is updated successfully !`
+      });
+    }
+  );
+};
+
 const remove = (req, res) => {
-  Music.findByIdAndRemove(req.params.id, (err, Music) => {
+  Music.findByIdAndRemove(req.params.id, (err, music) => {
     if (err) throw err;
-    res.json({ status: 204, msg: `${Music.title} is deleted successfully !` });
+    res.json({ status: 204, msg: `${music.title} is deleted successfully !` });
   });
 };
 
 module.exports = {
   index,
+  read,
   create,
+  update,
   remove
 };
