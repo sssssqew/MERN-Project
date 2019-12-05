@@ -185,6 +185,12 @@ class Music extends React.Component {
     const url = `https://www.youtube.com/embed/${
       selectedVideoId ? selectedVideoId : musics[0] ? musics[0].videoId : "" // 처음 로딩시에는 첫번째 비디오를 가져옴
     }`;
+    const inputList = [
+      { name: "title", value: title, placeholder: "Type song title..." },
+      { name: "artist", value: artist, placeholder: "Type song artist..." },
+      { name: "videoId", value: videoId, placeholder: "Type song video Id..." },
+      { name: "star", value: star, placeholder: "Type song star... (<= 5.0)" }
+    ];
 
     const modal = {
       add: (
@@ -192,9 +198,9 @@ class Music extends React.Component {
           isShow={isShow}
           onCrud={addMusic}
           onClose={hideModal}
-          btnText="Add"
+          btnText="Add Music"
+          titleText="Add Form"
         >
-          <p className="title">Add Form</p>
           <div className="content">
             <p>Can you fill out below information to add new music video?</p>
             {isNotFilledAll ? (
@@ -202,30 +208,15 @@ class Music extends React.Component {
             ) : (
               ""
             )}
-            <Input
-              name="title"
-              placeholder="Type song title..."
-              onChange={handleChange}
-              value={title}
-            />
-            <Input
-              name="artist"
-              placeholder="Type song artist..."
-              onChange={handleChange}
-              value={artist}
-            />
-            <Input
-              name="videoId"
-              placeholder="Type song id..."
-              onChange={handleChange}
-              value={videoId}
-            />
-            <Input
-              name="star"
-              placeholder="Type song star... (<= 5.0)"
-              onChange={handleChange}
-              value={star}
-            />
+            {inputList.map((inputItem, key) => (
+              <Input
+                key={key}
+                name={inputItem.name}
+                placeholder={inputItem.placeholder}
+                onChange={handleChange}
+                value={inputItem.value}
+              />
+            ))}
           </div>
         </Modal>
       ),
@@ -234,9 +225,9 @@ class Music extends React.Component {
           isShow={isShow}
           onCrud={editMusic}
           onClose={hideModal}
-          btnText="Edit"
+          btnText="Edit Music"
+          titleText="Edit Form"
         >
-          <p className="title">Edit Form</p>
           <div className="content">
             <p>Can you fill out below information to edit music video?</p>
             {isNotFilledAll ? (
@@ -244,30 +235,15 @@ class Music extends React.Component {
             ) : (
               ""
             )}
-            <Input
-              name="title"
-              placeholder="Type song title..."
-              onChange={handleChange}
-              value={title}
-            />
-            <Input
-              name="artist"
-              placeholder="Type song artist..."
-              onChange={handleChange}
-              value={artist}
-            />
-            <Input
-              name="videoId"
-              placeholder="Type song id..."
-              onChange={handleChange}
-              value={videoId}
-            />
-            <Input
-              name="star"
-              placeholder="Type song star... (<= 5.0)"
-              onChange={handleChange}
-              value={star}
-            />
+            {inputList.map((inputItem, key) => (
+              <Input
+                key={key}
+                name={inputItem.name}
+                placeholder={inputItem.placeholder}
+                onChange={handleChange}
+                value={inputItem.value}
+              />
+            ))}
           </div>
         </Modal>
       ),
@@ -276,9 +252,9 @@ class Music extends React.Component {
           isShow={isShow}
           onCrud={deleteMusic}
           onClose={hideModal}
-          btnText="Delete"
+          btnText="Delete Music"
+          titleText="Delete Form"
         >
-          <p className="title">Delete Form</p>
           <div className="content">
             <p>
               You really want to delete <br /> [ {title} - {artist} ]?
