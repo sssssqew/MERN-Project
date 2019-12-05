@@ -11,7 +11,8 @@ class MusicItem extends React.Component {
     this.container = React.createRef();
   }
   state = {
-    showDropdown: false
+    showDropdown: false,
+    menu: ["edit", "delete"]
   };
   toggleDropdownMenu = e => {
     this.setState({ showDropdown: !this.state.showDropdown });
@@ -33,7 +34,7 @@ class MusicItem extends React.Component {
   render() {
     const { id, title, artist, videoId, star, onPlay, onShow } = this.props;
     const { toggleDropdownMenu } = this;
-    const { showDropdown } = this.state;
+    const { showDropdown, menu } = this.state;
     const url = `http://img.youtube.com/vi/${videoId}/hqdefault.jpg`; // iframe: https://www.youtube.com/embed/${videoId}
 
     return (
@@ -45,7 +46,17 @@ class MusicItem extends React.Component {
           <div className="dropdown-options" onClick={toggleDropdownMenu}>
             <img src={ThreeDotsImage} alt="options" />
           </div>
-          <Dropdown showDropdown={showDropdown} onShow={onShow} id={id} />
+          <Dropdown showDropdown={showDropdown}>
+            {menu.map((option, key) => (
+              <div
+                key={key}
+                className="dropdown-item"
+                onClick={e => onShow(e, id, option)}
+              >
+                {option}
+              </div>
+            ))}
+          </Dropdown>
         </div>
 
         <div className="title-text">
