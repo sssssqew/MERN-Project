@@ -4,7 +4,7 @@ import CloseBtnImage from "assets/images/close.png";
 
 import "./Modal.scss";
 
-const Modal = ({ isShow, titleText, btnText, onCrud, onClose, children }) => {
+const Modal = ({ isShow, titleText, btnText, onSubmit, onClose, children }) => {
   const showHideClassName = isShow
     ? "modal display-block"
     : "modal display-none";
@@ -17,7 +17,7 @@ const Modal = ({ isShow, titleText, btnText, onCrud, onClose, children }) => {
         <p className="title">{titleText}</p>
         {children}
         <div className="add-music-btn">
-          <button onClick={onCrud}>{btnText}</button>
+          <button onClick={onSubmit}>{btnText}</button>
         </div>
       </div>
     </div>

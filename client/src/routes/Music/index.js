@@ -207,7 +207,7 @@ class Music extends React.Component {
       add: (
         <Modal
           isShow={isShow}
-          onCrud={addMusic}
+          onSubmit={addMusic}
           onClose={hideModal}
           btnText="Add Music"
           titleText="Add Form"
@@ -234,7 +234,7 @@ class Music extends React.Component {
       edit: (
         <Modal
           isShow={isShow}
-          onCrud={editMusic}
+          onSubmit={editMusic}
           onClose={hideModal}
           btnText="Edit Music"
           titleText="Edit Form"
@@ -261,7 +261,7 @@ class Music extends React.Component {
       delete: (
         <Modal
           isShow={isShow}
-          onCrud={deleteMusic}
+          onSubmit={deleteMusic}
           onClose={hideModal}
           btnText="Delete Music"
           titleText="Delete Form"
