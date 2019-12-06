@@ -32,9 +32,12 @@
       background: green;
       top: 0;
       right: 0;
-      // float: right;
+      opacity: 0.3;
       cursor: pointer;
       // z-index: 1;
+      &:hover {
+        opacity: 1;
+      }
       img {
         width: 100%;
       }
