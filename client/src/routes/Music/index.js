@@ -37,6 +37,8 @@ class Music extends React.Component {
   };
 
   // helper function
+  // async 함수는 프로미스 객체를 리턴함
+  // 프로미스 객체는 await으로 받거나 then 메서드로 받으면 됨
   fetchToAPI = async (method, data = null, id = "") => {
     const base_url = "/api/musics";
     const fetch_url = `${base_url}/${id}`;
@@ -61,18 +63,23 @@ class Music extends React.Component {
     const { getMusics, hideModal, showNotification, storeValidStar } = this;
     const star = storeValidStar(this.state.star);
 
+    // const는 블록스코프라서 msg가 try문을 벗어나면 값이 사라지므로
+    //showNotification 함수가 try문 밖에 있으면 msg 값을 참조하지 못함
     if (title && artist && videoId) {
-      const { msg } = await this.fetchToAPI(
-        "put",
-        { title, artist, videoId, star },
-        id
-      );
+      try {
+        const { msg } = await this.fetchToAPI(
+          "put",
+          { title, artist, videoId, star },
+          id
+        );
+        hideModal();
+        getMusics();
+        showNotification(msg);
 
-      hideModal();
-      getMusics();
-      showNotification(msg);
-
-      this.setState({ isNotFilledAll: false });
+        this.setState({ isNotFilledAll: false });
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       this.setState({ isNotFilledAll: true });
     }
@@ -80,26 +87,38 @@ class Music extends React.Component {
   deleteMusic = async () => {
     const { id } = this.state;
     const { getMusics, hideModal, showNotification } = this;
-    const { msg } = await this.fetchToAPI("delete", null, id);
+    try {
+      const { msg } = await this.fetchToAPI("delete", null, id);
 
-    hideModal();
-    getMusics();
-    showNotification(msg);
+      hideModal();
+      getMusics();
+      showNotification(msg);
+    } catch (e) {
+      console.log(e);
+    }
   };
   getMusic = async id => {
-    const music = await this.fetchToAPI("get", null, id);
-    console.log(music);
-    this.setState({
-      id: music._id,
-      title: music.title,
-      artist: music.artist,
-      videoId: music.videoId,
-      star: music.star
-    });
+    try {
+      const music = await this.fetchToAPI("get", null, id);
+      console.log(music);
+      this.setState({
+        id: music._id,
+        title: music.title,
+        artist: music.artist,
+        videoId: music.videoId,
+        star: music.star
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
   getMusics = async () => {
-    const musics = await this.fetchToAPI("get");
-    this.setState({ musics, isLoading: false });
+    try {
+      const musics = await this.fetchToAPI("get");
+      this.setState({ musics, isLoading: false });
+    } catch (e) {
+      console.log(e);
+    }
   };
   addMusic = async () => {
     const { title, artist, videoId } = this.state;
@@ -107,18 +126,22 @@ class Music extends React.Component {
     const star = storeValidStar(this.state.star);
 
     if (title && artist && videoId) {
-      const { msg } = await await this.fetchToAPI("post", {
-        title,
-        artist,
-        videoId,
-        star
-      });
+      try {
+        const { msg } = await this.fetchToAPI("post", {
+          title,
+          artist,
+          videoId,
+          star
+        });
 
-      hideModal();
-      getMusics();
-      showNotification(msg);
+        hideModal();
+        getMusics();
+        showNotification(msg);
 
-      this.setState({ isNotFilledAll: false });
+        this.setState({ isNotFilledAll: false });
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       this.setState({ isNotFilledAll: true });
     }
