@@ -35,19 +35,38 @@ class Music extends React.Component {
     showModal(e, modalKind);
     getMusic(id);
   };
+
+  // helper function
+  fetchToAPI = async (method, data = null, id = "") => {
+    const base_url = "/api/musics";
+    const fetch_url = `${base_url}/${id}`;
+    const headers = { "Content-Type": "application/json" };
+    let fetch_info = {
+      method: method,
+      headers: headers
+    };
+    fetch_info = data
+      ? {
+          ...fetch_info,
+          body: JSON.stringify(data)
+        }
+      : fetch_info;
+    return await fetch(fetch_url, fetch_info).then(res => res.json());
+  };
+
+  // addMusic 함수와 id 들어가는것과 fetch 주소만 빼면 동일함
+  // 두 함수의 중복을 낮추고 fetch 주소를 인자로 받는 함수를 만들던지 하자
   editMusic = async () => {
     const { id, title, artist, videoId } = this.state;
     const { getMusics, hideModal, showNotification, storeValidStar } = this;
     const star = storeValidStar(this.state.star);
 
     if (title && artist && videoId) {
-      const { msg } = await fetch(`/api/musics/${id}`, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ title, artist, videoId, star })
-      }).then(res => res.json());
+      const { msg } = await this.fetchToAPI(
+        "put",
+        { title, artist, videoId, star },
+        id
+      );
 
       hideModal();
       getMusics();
@@ -61,20 +80,14 @@ class Music extends React.Component {
   deleteMusic = async () => {
     const { id } = this.state;
     const { getMusics, hideModal, showNotification } = this;
-
-    const { msg } = await fetch(`/api/musics/${id}`, {
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => res.json());
+    const { msg } = await this.fetchToAPI("delete", null, id);
 
     hideModal();
     getMusics();
     showNotification(msg);
   };
   getMusic = async id => {
-    const music = await fetch(`/api/musics/${id}`).then(res => res.json());
+    const music = await this.fetchToAPI("get", null, id);
     console.log(music);
     this.setState({
       id: music._id,
@@ -85,7 +98,7 @@ class Music extends React.Component {
     });
   };
   getMusics = async () => {
-    const musics = await fetch("/api/musics").then(res => res.json());
+    const musics = await this.fetchToAPI("get");
     this.setState({ musics, isLoading: false });
   };
   addMusic = async () => {
@@ -94,13 +107,12 @@ class Music extends React.Component {
     const star = storeValidStar(this.state.star);
 
     if (title && artist && videoId) {
-      const { msg } = await fetch("/api/musics", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ title, artist, videoId, star })
-      }).then(res => res.json());
+      const { msg } = await await this.fetchToAPI("post", {
+        title,
+        artist,
+        videoId,
+        star
+      });
 
       hideModal();
       getMusics();
@@ -115,7 +127,6 @@ class Music extends React.Component {
     this.setState({ isShow: true, modalKind: modalKind });
   };
   // edit, delete 인 경우에는 창을 띄웠을때 해당 정보를 읽어오므로 그냥 창을 바로 닫을때 읽은 정보를 삭제해줘야 한다
-  // add 기능 다시 테스트 필요함
   // 하지만 add는 창을 닫아도 안 지워지게 하고 싶다
   hideModal = e => {
     this.setState({
