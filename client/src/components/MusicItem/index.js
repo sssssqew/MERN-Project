@@ -57,10 +57,9 @@ class MusicItem extends React.Component {
               </div>
             ))}
           </Dropdown>
-        </div>
-
-        <div className="title-text">
-          {title} - {artist} ({star})
+          <div className="title-text">
+            {title} - {artist} ({star})
+          </div>
         </div>
       </div>
     );

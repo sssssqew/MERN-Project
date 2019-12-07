@@ -1,35 +1,65 @@
+@media screen and (max-width: 800px) {
+  #music-container {
+    flex-direction: column;
+    align-items: center;
+
+    .video-wrapper {
+      max-width: 80%;
+    }
+  }
+}
+
 #music-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   font-family: "ng";
   font-weight: 600;
-  width: 85%;
+  width: 90%;
   margin: 0 auto;
   // border: 1px solid blue;
   position: relative;
 
   .video-wrapper {
     width: 100%;
-    // border: 1px solid red;
+    height: 100%;
+    // border: 3px solid red;
     position: sticky;
     z-index: 4;
     top: 0;
     left: 0;
+
+    .frame-wrapper {
+      float: none;
+      clear: both;
+      width: 100%;
+      position: relative;
+      padding-bottom: 56.25%;
+      padding-top: 25px;
+      height: 0;
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
   }
 
   .music-video-container {
-    width: 100%;
-    margin-top: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
     // border: 1px solid black;
+
     .music-item-container {
-      // border: 1px solid skyblue;
-      margin-bottom: 50px;
-      // flex: 0 1 calc(30%-10px);
+      height: 270px;
+      // border: 1px solid red;
+      // margin-bottom: 50px;
     }
     #add-music-btn {
       background: white;

@@ -65,6 +65,8 @@ class Music extends React.Component {
 
     // const는 블록스코프라서 msg가 try문을 벗어나면 값이 사라지므로
     //showNotification 함수가 try문 밖에 있으면 msg 값을 참조하지 못함
+    // try catch를 하면 catch 이후의 코드는 실행이 정상적으로 됨
+    // 에러가 날만한 코드블록(함수포함)을 try catch로 감싸면 됨
     if (title && artist && videoId) {
       try {
         const { msg } = await this.fetchToAPI(
@@ -307,13 +309,13 @@ class Music extends React.Component {
         ) : (
           <div id="music-container">
             <div className="video-wrapper">
-              <iframe
-                src={url}
-                width="100%"
-                height="700"
-                allowFullScreen="allowfullscreen"
-                frameBorder="0"
-              ></iframe>
+              <div className="frame-wrapper">
+                <iframe
+                  src={url}
+                  allowFullScreen="allowfullscreen"
+                  frameBorder="0"
+                ></iframe>
+              </div>
             </div>
             <Notification active={notifyActive} msg={msg} />
             {modal[modalKind]}
