@@ -32,8 +32,8 @@ class Music extends React.Component {
   };
   handleModal = (e, id, modalKind) => {
     const { showModal, getMusic } = this;
-    showModal(e, modalKind);
     getMusic(id);
+    showModal(e, modalKind);
   };
 
   // helper function
@@ -102,7 +102,7 @@ class Music extends React.Component {
   getMusic = async id => {
     try {
       const music = await this.fetchToAPI("get", null, id);
-      console.log(music);
+      // console.log(music);
       this.setState({
         id: music._id,
         title: music.title,
@@ -166,7 +166,7 @@ class Music extends React.Component {
   };
   handleChange = e => {
     // console.log(typeof e.target.value);
-    console.log(`${e.target.name}: ${e.target.value}`);
+    // console.log(`${e.target.name}: ${e.target.value}`);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -188,6 +188,8 @@ class Music extends React.Component {
   componentDidMount() {
     this.getMusics();
   }
+
+  // shouldComponentUpdate()
 
   render() {
     console.log("render...");
@@ -300,6 +302,24 @@ class Music extends React.Component {
       )
     };
 
+    const musicVideoList = musics.map((music, index) => {
+      // console.log(music._id);
+      // key는 각 아이템의 가장 상위 tag에 부여해야 함
+      return (
+        <div className="music-item-container" key={music._id}>
+          <MusicItem
+            id={music._id}
+            title={music.title}
+            artist={music.artist}
+            videoId={music.videoId}
+            star={music.star}
+            onPlay={playMusicVideo}
+            onShow={handleModal}
+          />
+        </div>
+      );
+    });
+
     return (
       <div>
         {isLoading ? (
@@ -327,23 +347,7 @@ class Music extends React.Component {
               >
                 <img src={addBtnImage} alt="add-music" />
               </div>
-              {musics.map((music, index) => {
-                // console.log(music._id);
-                // key는 각 아이템의 가장 상위 tag에 부여해야 함
-                return (
-                  <div className="music-item-container" key={music._id}>
-                    <MusicItem
-                      id={music._id}
-                      title={music.title}
-                      artist={music.artist}
-                      videoId={music.videoId}
-                      star={music.star}
-                      onPlay={playMusicVideo}
-                      onShow={handleModal}
-                    />
-                  </div>
-                );
-              })}
+              {musicVideoList}
             </div>
           </div>
         )}

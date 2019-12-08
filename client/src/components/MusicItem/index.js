@@ -5,7 +5,7 @@ import ThreeDotsImage from "assets/images/3-dot-icon.jpg";
 import "./MusicItem.scss";
 import Dropdown from "components/Dropdown";
 
-class MusicItem extends React.Component {
+class MusicItem extends React.PureComponent {
   constructor(props) {
     super(props);
     this.container = React.createRef();
@@ -18,7 +18,12 @@ class MusicItem extends React.Component {
     this.setState({ showDropdown: !this.state.showDropdown });
   };
   handleClickOutside = e => {
-    if (this.container.current && !this.container.current.contains(e.target)) {
+    const { showDropdown } = this.state;
+    if (
+      this.container.current &&
+      !this.container.current.contains(e.target) &&
+      showDropdown
+    ) {
       this.setState({
         showDropdown: false
       });
@@ -32,10 +37,21 @@ class MusicItem extends React.Component {
   }
 
   render() {
+    console.log("music item render...");
     const { id, title, artist, videoId, star, onPlay, onShow } = this.props;
     const { toggleDropdownMenu } = this;
     const { showDropdown, menu } = this.state;
     const url = `http://img.youtube.com/vi/${videoId}/hqdefault.jpg`; // iframe: https://www.youtube.com/embed/${videoId}
+
+    const dropdownChildren = menu.map((option, key) => (
+      <div
+        key={key}
+        className="dropdown-item"
+        onClick={e => onShow(e, id, option)}
+      >
+        {option}
+      </div>
+    ));
 
     return (
       <div id="musicitem-container">
@@ -46,17 +62,7 @@ class MusicItem extends React.Component {
           <div className="dropdown-options" onClick={toggleDropdownMenu}>
             <img src={ThreeDotsImage} alt="options" />
           </div>
-          <Dropdown showDropdown={showDropdown}>
-            {menu.map((option, key) => (
-              <div
-                key={key}
-                className="dropdown-item"
-                onClick={e => onShow(e, id, option)}
-              >
-                {option}
-              </div>
-            ))}
-          </Dropdown>
+          <Dropdown showDropdown={showDropdown}>{dropdownChildren}</Dropdown>
           <div className="title-text">
             {title} - {artist} ({star})
           </div>

@@ -5,6 +5,7 @@ import CloseBtnImage from "assets/images/close.png";
 import "./Modal.scss";
 
 const Modal = ({ isShow, titleText, btnText, onSubmit, onClose, children }) => {
+  console.log("modal render...");
   const showHideClassName = isShow
     ? "modal display-block"
     : "modal display-none";

@@ -3,6 +3,7 @@ import React from "react";
 import "./Input.scss";
 
 const Input = ({ name, value, placeholder, onChange }) => {
+  console.log("input render...");
   return (
     <div className="input-wrap">
       <input
