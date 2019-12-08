@@ -1,4 +1,10 @@
 const Music = require("models/Music");
+const fetch = require("node-fetch");
+
+const isValid = (str, url) => {
+  const decodedText = decodeURIComponent(str);
+  return decodedText.indexOf(url) !== -1;
+};
 
 const index = async (req, res) => {
   const musics = await Music.find();
@@ -54,10 +60,20 @@ const remove = (req, res) => {
   });
 };
 
+const checkVideoId = (req, res) => {
+  const { videoInfoUrl, videoUrl } = req.body;
+  const text = fetch(videoInfoUrl)
+    .then(res => res.text())
+    .then(text => {
+      res.json({ videoIsValid: isValid(text, videoUrl) });
+    });
+};
+
 module.exports = {
   index,
   read,
   create,
   update,
-  remove
+  remove,
+  checkVideoId
 };

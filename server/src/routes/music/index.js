@@ -8,4 +8,6 @@ MusicRouter.route("/").post(MusicController.create);
 MusicRouter.route("/:id").put(MusicController.update);
 MusicRouter.route("/:id").delete(MusicController.remove);
 
+MusicRouter.route("/checkVideoId").post(MusicController.checkVideoId);
+
 module.exports = MusicRouter;

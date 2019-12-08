@@ -16,6 +16,7 @@ class Music extends React.Component {
     isShow: false,
     isNotFilledAll: false,
     notifyActive: false,
+    isVideoNotValid: false,
     modalKind: "",
     id: "",
     title: "",
@@ -25,12 +26,31 @@ class Music extends React.Component {
     selectedVideoId: "",
     msg: ""
   };
+  // helper function
   storeValidStar = str => {
     let evalNum = parseFloat(str);
     evalNum = isNaN(evalNum) ? 0 : evalNum > 5 ? 5 : evalNum;
     return evalNum;
   };
-  handleModal = (e, id, modalKind) => {
+  // check if video url is valid
+  // youtube video information rul => http://youtube.com/get_video_info?video_id=6Cjq9zRUXNs
+  checkVideoUrlValid = vId => {
+    const validationUrl = "api/musics/checkVideoId";
+    const videoInfoUrl = `http://youtube.com/get_video_info?video_id=${vId}`;
+    const videoUrl = `https://www.youtube.com/embed/${vId}`;
+    const fetchInfo = {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        videoInfoUrl,
+        videoUrl
+      })
+    };
+
+    return fetch(validationUrl, fetchInfo).then(res => res.json());
+  };
+
+  handleModal = async (e, id, modalKind) => {
     const { showModal, getMusic } = this;
     getMusic(id);
     showModal(e, modalKind);
@@ -39,7 +59,7 @@ class Music extends React.Component {
   // helper function
   // async 함수는 프로미스 객체를 리턴함
   // 프로미스 객체는 await으로 받거나 then 메서드로 받으면 됨
-  fetchToAPI = async (method, data = null, id = "") => {
+  fetchToAPI = (method, data = null, id = "") => {
     const base_url = "/api/musics";
     const fetch_url = `${base_url}/${id}`;
     const headers = { "Content-Type": "application/json" };
@@ -53,14 +73,20 @@ class Music extends React.Component {
           body: JSON.stringify(data)
         }
       : fetch_info;
-    return await fetch(fetch_url, fetch_info).then(res => res.json());
+    return fetch(fetch_url, fetch_info).then(res => res.json());
   };
 
   // addMusic 함수와 id 들어가는것과 fetch 주소만 빼면 동일함
   // 두 함수의 중복을 낮추고 fetch 주소를 인자로 받는 함수를 만들던지 하자
   editMusic = async () => {
     const { id, title, artist, videoId } = this.state;
-    const { getMusics, hideModal, showNotification, storeValidStar } = this;
+    const {
+      getMusics,
+      hideModal,
+      showNotification,
+      storeValidStar,
+      checkVideoUrlValid
+    } = this;
     const star = storeValidStar(this.state.star);
 
     // const는 블록스코프라서 msg가 try문을 벗어나면 값이 사라지므로
@@ -69,16 +95,28 @@ class Music extends React.Component {
     // 에러가 날만한 코드블록(함수포함)을 try catch로 감싸면 됨
     if (title && artist && videoId) {
       try {
-        const { msg } = await this.fetchToAPI(
-          "put",
-          { title, artist, videoId, star },
-          id
-        );
-        hideModal();
-        getMusics();
-        showNotification(msg);
+        const { videoIsValid } = await checkVideoUrlValid(videoId);
 
-        this.setState({ isNotFilledAll: false });
+        // save if only video id is valid in youtube
+        if (videoIsValid) {
+          try {
+            const { msg } = await this.fetchToAPI(
+              "put",
+              { title, artist, videoId, star },
+              id
+            );
+            hideModal();
+            getMusics();
+            showNotification(msg);
+
+            this.setState({ isNotFilledAll: false, isVideoNotValid: false });
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          console.log("video id is not valid");
+          this.setState({ isVideoNotValid: true });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -124,23 +162,41 @@ class Music extends React.Component {
   };
   addMusic = async () => {
     const { title, artist, videoId } = this.state;
-    const { getMusics, hideModal, showNotification, storeValidStar } = this;
+    const {
+      getMusics,
+      hideModal,
+      showNotification,
+      storeValidStar,
+      checkVideoUrlValid
+    } = this;
     const star = storeValidStar(this.state.star);
 
     if (title && artist && videoId) {
       try {
-        const { msg } = await this.fetchToAPI("post", {
-          title,
-          artist,
-          videoId,
-          star
-        });
+        const { videoIsValid } = await checkVideoUrlValid(videoId);
 
-        hideModal();
-        getMusics();
-        showNotification(msg);
+        // save if only video id is valid in youtube
+        if (videoIsValid) {
+          try {
+            const { msg } = await this.fetchToAPI("post", {
+              title,
+              artist,
+              videoId,
+              star
+            });
 
-        this.setState({ isNotFilledAll: false });
+            hideModal();
+            getMusics();
+            showNotification(msg);
+
+            this.setState({ isNotFilledAll: false, isVideoNotValid: false });
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          console.log("video id is not valid");
+          this.setState({ isVideoNotValid: true });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -199,6 +255,15 @@ class Music extends React.Component {
       }
     }
   };
+  // extract video id from youtube url
+  matchYoutubeUrl = url => {
+    var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    if (url.match(p)) {
+      return url.match(p)[1];
+    }
+    return false;
+  };
+
   componentDidMount() {
     this.getMusics();
   }
@@ -220,7 +285,8 @@ class Music extends React.Component {
       videoId,
       star,
       notifyActive,
-      msg
+      msg,
+      isVideoNotValid
     } = this.state;
     const {
       showModal,
@@ -257,7 +323,12 @@ class Music extends React.Component {
           <div className="content">
             <p>Can you fill out below information to add new music video?</p>
             {isNotFilledAll ? (
-              <p id="error-message">"You didnt fill out all information ):"</p>
+              <p id="error-message">You didnt fill out all information ):</p>
+            ) : (
+              ""
+            )}
+            {isVideoNotValid ? (
+              <p id="error-message">Video Id is not valid ):</p>
             ) : (
               ""
             )}
@@ -285,7 +356,12 @@ class Music extends React.Component {
           <div className="content">
             <p>Can you fill out below information to edit music video?</p>
             {isNotFilledAll ? (
-              <p id="error-message">"You didnt fill out all information ):"</p>
+              <p id="error-message">You didnt fill out all information ):</p>
+            ) : (
+              ""
+            )}
+            {isVideoNotValid ? (
+              <p id="error-message">Video Id is not valid ):</p>
             ) : (
               ""
             )}
