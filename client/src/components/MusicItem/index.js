@@ -5,6 +5,18 @@ import ThreeDotsImage from "assets/images/3-dot-icon.jpg";
 import "./MusicItem.scss";
 import Dropdown from "components/Dropdown";
 
+// 배열의 map 메서드로 맵핑된 MusicItem 컴포넌트는
+// 해당 컴포넌트의 상태 변경시 전체 MuiscItem 컴포넌트들이 아니라
+// 해당 컴포넌트만 렌더링하도록 PureComponent로 변경함
+// PureComponent는 자체적으로 shouldUpdateComponent 가 내장되어 있음
+// Input 컴포넌트들도 PureComponent로 변경하여 해당 컴포넌트만 렌더링하도록 함
+
+// PureComponent는 전달되는 props가 모두 불변적이어야 함
+// 불변적이라는 말은 배열이나 객체를 props에 하드코딩으로 전달하면 안됨
+// 그러면 매번 새로운 배열이나 객체가 전달되기 때문에
+// 어차피 props를 내부적으로 비교해도 렌더링이 되기 때문에
+// 비교하는 코드 때문에 렌더링만 늦어짐
+
 class MusicItem extends React.PureComponent {
   constructor(props) {
     super(props);
