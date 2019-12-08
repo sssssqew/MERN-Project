@@ -185,6 +185,20 @@ class Music extends React.Component {
       }, 3000);
     });
   };
+  handleKeyPress = e => {
+    const { name } = e.target;
+    const { modalKind } = this.state;
+    const { addMusic, editMusic } = this;
+    if (e.key === "Enter" && (name === "videoId" || name === "star")) {
+      // console.log(`Enter clicked ${name}`);
+      // console.log(`modal kind: ${modalKind}`);
+      if (modalKind === "add") {
+        addMusic();
+      } else if (modalKind === "edit") {
+        editMusic();
+      }
+    }
+  };
   componentDidMount() {
     this.getMusics();
   }
@@ -217,7 +231,8 @@ class Music extends React.Component {
       deleteMusic,
       editMusic,
       getMusic,
-      handleModal
+      handleModal,
+      handleKeyPress
     } = this;
     console.log(selectedVideoId);
     const url = `https://www.youtube.com/embed/${
@@ -253,6 +268,7 @@ class Music extends React.Component {
                 placeholder={inputItem.placeholder}
                 onChange={handleChange}
                 value={inputItem.value}
+                onKeyPress={handleKeyPress}
               />
             ))}
           </div>
@@ -280,6 +296,7 @@ class Music extends React.Component {
                 placeholder={inputItem.placeholder}
                 onChange={handleChange}
                 value={inputItem.value}
+                onKeyPress={handleKeyPress}
               />
             ))}
           </div>

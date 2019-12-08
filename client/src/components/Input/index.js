@@ -4,7 +4,7 @@ import "./Input.scss";
 
 class Input extends React.PureComponent {
   render() {
-    const { name, value, placeholder, onChange } = this.props;
+    const { name, value, placeholder, onChange, onKeyPress } = this.props;
     console.log(`input ${name} render...`);
 
     return (
@@ -14,6 +14,7 @@ class Input extends React.PureComponent {
           placeholder={placeholder}
           onChange={onChange}
           value={value}
+          onKeyPress={onKeyPress}
         />
       </div>
     );
