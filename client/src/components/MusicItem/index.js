@@ -37,7 +37,6 @@ class MusicItem extends React.PureComponent {
   }
 
   render() {
-    console.log("music item render...");
     const { id, title, artist, videoId, star, onPlay, onShow } = this.props;
     const { toggleDropdownMenu } = this;
     const { showDropdown, menu } = this.state;
@@ -52,6 +51,7 @@ class MusicItem extends React.PureComponent {
         {option}
       </div>
     ));
+    console.log(`music item ${title} render...`);
 
     return (
       <div id="musicitem-container">
